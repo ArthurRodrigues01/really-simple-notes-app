@@ -2,7 +2,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { RootStackParamList } from './src/types/navigation-types';
 import { MenuProvider } from 'react-native-popup-menu';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { HEADER_BACKGROUND_COLOR } from './src/constants/constants'
 import {JSX} from 'react';
 
@@ -13,15 +12,16 @@ import HeaderRightCreate from './src/components/HeaderRightCreate';
 import HeaderRightHome from './src/components/HeaderRightHome';
 import HeaderLeftCreate from './src/components/HeaderLeftCreate';
 import HeaderLeftHome from './src/components/HeaderLeftHome'
+import FontOptionsModal from './src/pages/FontOptionsModal';
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function App(): JSX.Element {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <MenuProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
+    <MenuProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Group>
             <Stack.Screen
               name='Home'
               component={Home}
@@ -41,10 +41,19 @@ function App(): JSX.Element {
                 headerBackVisible: false
               })}
             />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </MenuProvider>
-    </GestureHandlerRootView>
+          </Stack.Group>
+          <Stack.Group screenOptions={{ presentation: 'containedTransparentModal', animation: 'fade' }}>
+            <Stack.Screen 
+              name='FontOptionsModal'
+              component={FontOptionsModal}
+              options={{
+                headerShown: false
+              }}
+            />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MenuProvider>
   );
 }
 

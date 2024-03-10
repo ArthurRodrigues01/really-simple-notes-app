@@ -2,7 +2,7 @@ import ThreeDotsSVG from '../assets/ThreeDots'
 import { showBooleanMessage, showMessage } from '../functions/other-functions';
 import { Menu, MenuTrigger, MenuOptions, MenuOption, renderers } from "react-native-popup-menu";
 import { headerBarButtonStyles, menuTriggerCustomStyles } from '../styles/headerBarButtons';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import ContextMenuOptionButton from './ContextMenuOptionButton';
 import { useNavigation } from '@react-navigation/native';
 import { HomeScreenProps } from '../types/navigation-types';
@@ -67,6 +67,13 @@ function MoreActionsButtonHome() {
     } 
   }
 
+  const goToFontOptionsModalHandler = () => {
+    Keyboard.dismiss()
+    setTimeout(() => {
+      navigation.navigate('FontOptionsModal', {}) 
+    }, 125)
+  }
+
   return (
     <Menu renderer={renderers.Popover} rendererProps={{ placement: 'bottom' }}>
       <MenuTrigger customStyles={menuTriggerCustomStyles}>
@@ -88,6 +95,11 @@ function MoreActionsButtonHome() {
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={(exportNotesHandler)}>
           <ContextMenuOptionButton>
             Exportar notas
+          </ContextMenuOptionButton>
+        </MenuOption>
+        <MenuOption customStyles={menuOptionCustomStyles} onSelect={goToFontOptionsModalHandler}>
+          <ContextMenuOptionButton>
+            Alterar Tamanho da Fonte
           </ContextMenuOptionButton>
         </MenuOption>
       </MenuOptions>

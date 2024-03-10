@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export type RootStackParamList = {
-  Home: { title: string};
+  Home: { title: string},
   Create: {
     title: string,
     isNewNote?: boolean,
@@ -9,9 +9,12 @@ export type RootStackParamList = {
     noteTitle?: string,
     noteText?: string,
     noteCreationDatetime?: string
-  };
+  },
+  FontOptionsModal: {}
 };
 
 export type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export type CreateScreenProps = NativeStackNavigationProp<RootStackParamList, 'Create'>
+
+export type FontOptionsModalScreenProps = NativeStackNavigationProp<RootStackParamList, 'FontOptionsModal'>

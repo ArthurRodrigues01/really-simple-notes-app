@@ -11,7 +11,7 @@ function useHardwareBackButton(callback: () => void, deps: DependencyList) {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backButtonPressHandler)
   
     return () => backHandler.remove()
-  }, [deps])
+  }, deps)
 }
 
 export default useHardwareBackButton

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isNote, removeArrayItem } from "./other-functions";
 import { Note } from "../types/other-types";
-import { NOTES_KEY, SORTING_MODE_KEY } from '../constants/constants'
+import { NOTES_KEY, SORTING_MODE_KEY, NOTE_TITLE_FONTSIZE_KEY, NOTE_TEXT_FONTSIZE_KEY } from '../constants/constants'
 import { NotNoteFileError } from "../constants/error-handlers";
 
 export async function getNote(noteID: string): Promise<Note> {
@@ -86,4 +86,20 @@ export async function saveSortingMode(sortingMode: number) {
 
 export async function getSortingMode() {
   return await AsyncStorage.getItem(SORTING_MODE_KEY) || '1'
+}
+
+export async function saveNoteTitleFontsize(noteTitleFontsize: number) {
+  await AsyncStorage.setItem(NOTE_TITLE_FONTSIZE_KEY, `${noteTitleFontsize}`)
+}
+
+export async function getNoteTitleFontsize() {
+  return await AsyncStorage.getItem(NOTE_TITLE_FONTSIZE_KEY)
+}
+
+export async function saveNoteTextFontsize(noteTextFontsize: number) {
+  await AsyncStorage.setItem(NOTE_TEXT_FONTSIZE_KEY, `${noteTextFontsize}`)
+}
+
+export async function getNoteTextFontsize() {
+  return await AsyncStorage.getItem(NOTE_TEXT_FONTSIZE_KEY)
 }

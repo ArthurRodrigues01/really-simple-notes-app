@@ -1,10 +1,12 @@
 import styled from 'styled-components/native';
 import PencilSVG from '../assets/Pencil'
-import { TouchableNativeFeedbackProps, TouchableNativeFeedback, View } from "react-native";
-import { customRippleRadiusEffect } from '../functions/other-functions';
-import { CenteredFlexRow } from './general-components';
+import { PressableProps } from "react-native";
+import { NativeButton } from './general-components';
 
-const ButtonWrapper = styled(CenteredFlexRow)`
+const CreateNoteButtonWrapper = styled(NativeButton)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   border-radius: 60px;
   position: absolute;
@@ -13,13 +15,11 @@ const ButtonWrapper = styled(CenteredFlexRow)`
   right: 20px;
 `
 
-function CreateNoteButton(props: TouchableNativeFeedbackProps) {
+function CreateNoteButton(props: PressableProps) {
   return (
-    <TouchableNativeFeedback background={customRippleRadiusEffect('lightgray', 42)} {...props}>
-      <ButtonWrapper>
-        <PencilSVG style={{ width: 45, height: 45}}/>
-      </ButtonWrapper>
-    </TouchableNativeFeedback>
+    <CreateNoteButtonWrapper rippleColor={'lightgray'} rippleRadius={42.5} {...props}>
+      <PencilSVG style={{ width: 45, height: 45}}/>
+    </CreateNoteButtonWrapper>
   )
 }
 

@@ -1,15 +1,19 @@
 import BackSVG from '../assets/Back'
-import { TouchableNativeFeedback, TouchableNativeFeedbackProps, View } from "react-native";
+import { PressableProps } from "react-native";
 import { headerBarButtonCustomRippleEffect, headerBarButtonStyles } from '../styles/headerBarButtons';
+import { NativeButton } from './general-components';
 
 
-function BackButton(props: TouchableNativeFeedbackProps) {
+function BackButton(props: PressableProps) {
   return (
-    <TouchableNativeFeedback background={headerBarButtonCustomRippleEffect} {...props}>
-      <View style={headerBarButtonStyles.headerBarButtonStyle}>
-        <BackSVG style={headerBarButtonStyles.headerBarButtonIconDimensions}/>
-      </View>
-    </TouchableNativeFeedback>
+    <NativeButton
+      rippleColor={headerBarButtonCustomRippleEffect.color} 
+      rippleRadius={ headerBarButtonCustomRippleEffect.radius} 
+      style={headerBarButtonStyles.headerBarButtonStyle}
+      {...props}
+    >
+      <BackSVG style={headerBarButtonStyles.headerBarButtonIconDimensions}/>
+    </NativeButton>
   )
 }
 

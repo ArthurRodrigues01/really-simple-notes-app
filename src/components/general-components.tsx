@@ -1,3 +1,4 @@
+import { Pressable, PressableProps, ColorValue } from "react-native";
 import styled from "styled-components/native";
 
 export const FlexRow = styled.View`
@@ -33,6 +34,11 @@ export const Title = styled.Text<{color?: string }>`
   font-weight: bold;
   color: ${(props) => props.color || '#000'};
 `
+export const ScalableText = styled.Text<{color?: string, fontsize?: number, bold?: boolean}>`
+  font-size: ${props => props.fontsize ? `${props.fontsize}px` : '16px'};
+  color: ${props => props.color || '#000'};
+  font-weight: ${props => props.bold ? 'bold' : 'normal'};
+`
 
 export const MediumText = styled.Text<{color?: string }>`
   font-size: 18px;
@@ -43,3 +49,11 @@ export const SmallText = styled.Text<{color?: string }>`
   font-size: 16px;
   color: ${(props) => props.color || '#000'};
 `
+
+export function NativeButton(props: PressableProps & { rippleColor?: ColorValue, rippleRadius?: number }): React.JSX.Element {
+  return (
+    <Pressable android_ripple={{ color: props.rippleColor || 'gray', radius: props.rippleRadius && isFinite(props.rippleRadius) ? props.rippleRadius : undefined}} {...props}>
+        { props.children as React.ReactNode }
+    </Pressable>
+  )
+}

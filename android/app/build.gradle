@@ -91,9 +91,9 @@ android {
         }
         release {
             storeFile file('really-simple-notes.keystore')
-            storePassword '147820'
+            storePassword '111111'
             keyAlias 'really-simple-notes'
-            keyPassword '147820'
+            keyPassword '111111'
         }
     }
     buildTypes {

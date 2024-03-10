@@ -1,15 +1,19 @@
 import TrashBinSVG from '../assets/TrashBin'
-import { TouchableNativeFeedback, TouchableNativeFeedbackProps, View } from "react-native";
+import { PressableProps } from "react-native";
 import { headerBarButtonCustomRippleEffect, headerBarButtonStyles } from '../styles/headerBarButtons';
+import { NativeButton } from './general-components';
 
 
-function DeleteNoteButton(props: TouchableNativeFeedbackProps) {
+function DeleteNoteButton(props: PressableProps) {
   return (
-    <TouchableNativeFeedback background={headerBarButtonCustomRippleEffect} {...props}>
-      <View style={headerBarButtonStyles.headerBarButtonStyle}>
-        <TrashBinSVG style={headerBarButtonStyles.headerBarButtonIconDimensions}/>
-      </View>
-    </TouchableNativeFeedback>
+    <NativeButton 
+      rippleColor={headerBarButtonCustomRippleEffect.color}
+      rippleRadius={headerBarButtonCustomRippleEffect.radius}
+      style={headerBarButtonStyles.headerBarButtonStyle}
+      {...props}
+    >
+      <TrashBinSVG style={headerBarButtonStyles.headerBarButtonIconDimensions}/>
+    </NativeButton>
   )
 }
 
