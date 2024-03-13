@@ -11,7 +11,6 @@ import Create from './src/pages/Create';
 import HeaderRightCreate from './src/components/HeaderRightCreate';
 import HeaderRightHome from './src/components/HeaderRightHome';
 import HeaderLeftCreate from './src/components/HeaderLeftCreate';
-import HeaderLeftHome from './src/components/HeaderLeftHome'
 import FontOptionsModal from './src/pages/FontOptionsModal';
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -26,8 +25,9 @@ function App(): JSX.Element {
               name='Home'
               component={Home}
               options={({ route }) => ({
-                headerTitle: () => <HeaderLeftHome>{route.params ? route.params.title : 'Notas'}</HeaderLeftHome>,
+                headerTitle: route.params ? route.params.title : 'Notas',
                 headerStyle: { backgroundColor: HEADER_BACKGROUND_COLOR },
+                headerTitleStyle: { color: '#ffffff', fontSize: 24, fontWeight: 'bold' },
                 headerRight: () => <HeaderRightHome/>,
               })}
             />

@@ -7,6 +7,7 @@ import { SmallText, ScalableText, NativeButton } from "./general-components"
 import { useEffect, useState } from "react"
 import { getNoteTextFontsize, getNoteTitleFontsize } from "../functions/storage-functions"
 import { DEFAULT_NOTE_TEXT_FONTSIZE_IN_PIXELS, DEFAULT_NOTE_TITLE_FONTSIZE_IN_PIXELS } from "../constants/constants"
+import { ColorValue, PressableProps, StyleProp, ViewStyle } from "react-native"
 
 const NoteWrapper = styled(NativeButton)`
   display: flex;
@@ -21,8 +22,7 @@ const LastEdit = styled(SmallText)`
   align-self: flex-end;
 `
 
-function NotePreview({id, title, text, last_edit_datetime, creation_datetime}: Note) {
-  const navigation = useNavigation<HomeScreenProps>()
+function NotePreview({id, title, text, last_edit_datetime, creation_datetime, onLongPressHandler, onPressHandler, style, canPress, rippleColor}: Note & { canPress: boolean, onLongPressHandler: (item: string) => void, onPressHandler: (item: string) => void, rippleColor: ColorValue } & PressableProps) {
   const isFocused = useIsFocused()
 
   const [titleFontsize, setTitleFontsize] = useState(DEFAULT_NOTE_TITLE_FONTSIZE_IN_PIXELS)
@@ -43,7 +43,7 @@ function NotePreview({id, title, text, last_edit_datetime, creation_datetime}: N
   }, [isFocused])
 
   return (
-    <NoteWrapper unstable_pressDelay={31} onPress={() => navigation.navigate('Create', { title: 'Editar', noteID: id, noteTitle: title, noteText: text, noteCreationDatetime: creation_datetime})}>
+    <NoteWrapper rippleColor={rippleColor} canPress={canPress} style={style} unstable_pressDelay={16} onPress={() => onPressHandler(id)} onLongPress={() => onLongPressHandler(id)}>
       <ScalableText bold fontsize={titleFontsize} numberOfLines={1}>{title}</ScalableText>
       <ScalableText fontsize={textFontsize} numberOfLines={3}>{text}</ScalableText>
       <LastEdit color="gray">{last_edit_datetime == creation_datetime ? creationDatetimeString : lastEditDatetimeString}</LastEdit>
