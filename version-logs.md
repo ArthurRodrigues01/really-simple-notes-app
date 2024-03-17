@@ -22,7 +22,7 @@
 
 ### Features
 
-- **Added** a "Selectable mode": selectable mode is activated whenever the "selectedItems" array in the "SelectableModeProvider" component length property changes from 0 to any value above 0.
+- **Added** a "Selectable mode": selectable mode is activated on a onLongPress event of a "NotePreview" component, and after its been activated, the onPress event of a "NotePreview" component now toggle the component selected state.
 
 ### Major changes
 
