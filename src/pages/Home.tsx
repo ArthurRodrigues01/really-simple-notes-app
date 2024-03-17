@@ -98,7 +98,7 @@ function Home({ navigation }: {navigation: HomeScreenProps}) {
           onScrollEndDrag={() => setCanPress(true)}
           renderItem={(notes) =>  
             <NotePreview
-              canPress={canPress}
+              disabled={!canPress}
               key={notes.item.id}
               id={notes.item.id} 
               title={notes.item.title} 
@@ -109,7 +109,7 @@ function Home({ navigation }: {navigation: HomeScreenProps}) {
           }
         /> : isLoading ? <LoadingNotesFeedback/> : <NoNoteFeedback>Nenhuma nota encontrada</NoNoteFeedback>
       }
-      <CreateNoteButton onPress={() => navigation.navigate('Create', { title: 'Criar' })}/>
+      <CreateNoteButton disabled={isSelectableModeActive()} onPress={() => navigation.navigate('Create', { title: 'Criar' })}/>
     </PageWrapper>
   )
   

@@ -26,6 +26,7 @@
 
 ### Major changes
 
+- **Modified** import notes action: it will now effectively overwrite existing notes array with new notes array. 
 - **Added** provider "SelectableModeProvider"
 - **Added** hook "useSelectableMode"
 - **Fixed** error checking functions in "error-handlers"
@@ -33,3 +34,17 @@
 ### Minor changes
 
 - Several good coding practices implementations, most notable one: avoiding unnecessary code repetition.
+
+## 1.2.1
+
+### Features
+
+None
+
+### Major changes
+
+- **Fixed** FontOptionsModal screen; Unexpected behavior: setting saved font-sizes again and again every time "titleFontsize" got updated, effectively impeding user from altering title font-size.
+
+### Minor changes
+
+- **Fixed** bad "selectable mode" handling: user was able to go to note creation screen even if "selectable mode" was active.

@@ -51,9 +51,9 @@ export const SmallText = styled.Text<{color?: string }>`
   color: ${(props) => props.color || '#000'};
 `
 
-export function NativeButton(props: PressableProps & { rippleColor?: ColorValue, rippleRadius?: number, canPress?: boolean }): React.JSX.Element {
+export function NativeButton(props: PressableProps & { rippleColor?: ColorValue, rippleRadius?: number }): React.JSX.Element {
   return (
-    <Pressable disabled={props.canPress != undefined ? !props.canPress : false} android_ripple={{ color: props.rippleColor || 'gray', radius: props.rippleRadius && isFinite(props.rippleRadius) ? props.rippleRadius : undefined}} {...props}>
+    <Pressable android_ripple={{ color: props.rippleColor || 'gray', radius: props.rippleRadius && isFinite(props.rippleRadius) ? props.rippleRadius : undefined}} {...props}>
         { props.children as React.ReactNode }
     </Pressable>
   )

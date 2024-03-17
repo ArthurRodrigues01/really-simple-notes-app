@@ -62,7 +62,7 @@ function MoreActionsButtonHome() {
 
   async function importNotesHandler() {
     const title = 'AVISO⚠️'
-    const message = 'A importação de novas notas excluíra TODAS as notas existentes.\nTem certeza que deseja importar novas notas?'
+    const message = 'A importação de novas notas excluíra TODAS as notas existentes no processo, substituindo às pelas novas notas.\n\nTem certeza que deseja importar novas notas?'
     showBooleanMessage(title, message, async () => {
       try {
         const picked = await pickSingle({ type: 'application/json' })
@@ -74,7 +74,7 @@ function MoreActionsButtonHome() {
     
         await importNotes(notesJSON)
         navigation.replace('Home', { title: 'Notas' })
-        showMessage('Notas importadas com êxito!')
+        showMessage('Novas notas importadas com êxito!')
       } catch (e) {
         if (isCancel(e)) showMessage('Importação cancelada')
         else if (isTooLargeFileError(e)) showMessage('Arquivo muito grande! Tamanho máx.: 4MB')

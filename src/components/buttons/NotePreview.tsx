@@ -22,7 +22,7 @@ const LastEdit = styled(SmallText)`
   align-self: flex-end;
 `
 
-function NotePreview({id, title, text, last_edit_datetime, creation_datetime, canPress}: Note & { canPress: boolean}) {
+function NotePreview({id, title, text, last_edit_datetime, creation_datetime, disabled}: Note & { disabled: boolean}) {
   const navigation = useNavigation<HomeScreenProps>()
   const isFocused = useIsFocused()
   const { toggleItem, isSelected, isSelectableModeActive, wasSelectableModeDeactivatedRightNow } = useSelectableMode()
@@ -63,7 +63,7 @@ function NotePreview({id, title, text, last_edit_datetime, creation_datetime, ca
   }, [isFocused])
 
   return (
-    <NoteWrapper canPress={canPress} style={isSelected(id) ? { backgroundColor: '#b4b4b5'} : {}} onPress={onPressHandler} onLongPress={() => toggleItem(id)}>
+    <NoteWrapper disabled={disabled} style={isSelected(id) ? { backgroundColor: '#b4b4b5'} : {}} onPress={onPressHandler} onLongPress={() => toggleItem(id)}>
       <ScalableText bold fontsize={titleFontsize} numberOfLines={1}>{title}</ScalableText>
       <ScalableText fontsize={textFontsize} numberOfLines={3}>{text}</ScalableText>
       <LastEdit color="gray">{last_edit_datetime == creation_datetime ? creationDatetimeString : lastEditDatetimeString}</LastEdit>
