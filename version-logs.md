@@ -32,4 +32,4 @@
 
 ### Minor changes
 
-- Several good coding practices implementations, such as avoiding unnecessary code repetition.
+- Several good coding practices implementations, most notable one: avoiding unnecessary code repetition.

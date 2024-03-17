@@ -10,6 +10,7 @@ To generate an android installer file (.apk) you need to generate a keystore fil
 ## History
 
 ### [Versions](https://github.com/ArthurRodrigues01/really-simple-notes-app/blob/main/version-logs.md)
-- 1.1 (current)
+- 1.2 (current)
+- 1.1
 - 1.0
 
