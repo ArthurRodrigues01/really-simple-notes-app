@@ -1,19 +1,20 @@
 import { HomeScreenProps } from "../types/navigation-types";
 import { useIsFocused } from "@react-navigation/native";
-import { FlatList } from "react-native";
-import NotePreview from "../components/NotePreview";
+import { BackHandler, FlatList } from "react-native";
+import NotePreview from "../components/buttons/NotePreview";
 import { useEffect, useState } from "react";
 import { Note } from "../types/other-types";
 import { deleteMultiNotes, getAllNotes, getSortingMode } from "../functions/storage-functions";
-import CreateNoteButton from "../components/CreateNoteButton";
+import CreateNoteButton from "../components/buttons/CreateNoteButton";
 import styled from "styled-components/native";
-import NoNoteFeedback from "../components/NoNoteFeedback";
-import DeleteNoteButton from "../components/DeleteNoteButton";
+import NoNoteFeedback from "../components/feedbacks/NoNoteFeedback";
 import useSortNotes from "../hooks/useSortNotes";
-import useSelectableMode from "../hooks/useSelectableMode";
-import LoadingNotesFeedback from "../components/LoadingNotesFeedback";
+import { useSelectableMode } from "../hooks/SelectableModeProvider";
+import LoadingNotesFeedback from "../components/feedbacks/LoadingNotesFeedback";
 import { showBooleanMessage } from "../functions/other-functions";
 import HeaderRightHome from "../components/HeaderRightHome";
+import HeaderRightHomeSelectableMode from "../components/HeaderRightHomeSelectableMode";
+import useHardwareBackButton from "../hooks/useHardwareBackButton";
 
 const PageWrapper = styled.View`
   display: flex;
@@ -26,54 +27,65 @@ function Home({ navigation }: {navigation: HomeScreenProps}) {
   const [canPress, setCanPress] = useState(true)
   const [isLoading, setLoading] = useState(true)
   const {sortByNewest, sortByOldest, sortByNewestEdit, sortByOldestEdit, sortByAlphabeticalOrderByKey} = useSortNotes()
-  const { deactivateMode, selectedItems, toggleItem, isSelectableModeActive, selectedItemsCount, isSelected } = useSelectableMode()
+  const { 
+    selectedItems,
+    selectedItemsCount, 
+    deactivateSelectableMode, 
+    isSelectableModeActive, 
+    wasSelectableModeDeactivatedRightNow 
+  } = useSelectableMode()
 
-  const deleteMultiNoteHandler = () => {
-    const messageTitle = 'Excluir notas'
-    const message = 'Tem certeza que deseja excluir as notas selecionadas?'
-    const cbYes = async () => { 
-      await deleteMultiNotes(selectedItems)
-      deactivateMode()
-      navigation.replace('Home', { title: 'Notas' }) 
-    }
-    
-    showBooleanMessage(messageTitle, message, cbYes)
-  }
-
-
+  
   useEffect(() => {
     if (isFocused) { 
-      getAllNotes().then(notes => {
-        getSortingMode().then((sortingMode: string) => {
-          switch(Number(sortingMode) > 4 || Number(sortingMode) < 0 ? 1 : Number(sortingMode)) {
-            case 0: // alphabetical
-              setNotes(sortByAlphabeticalOrderByKey(notes, 'title'))
-              break
-            case 1: // newest
-              setNotes(sortByNewest(notes))
-              break
-            case 2: // oldest
-              setNotes(sortByOldest(notes))
-              break
-            case 3: // newest edits
-              setNotes(sortByNewestEdit(notes))
-              break;
-            case 4: // oldest edits
-              setNotes(sortByOldestEdit(notes))
-              break
-          }
-          setLoading(false)
-        })
-      })
+      async function setSortedSavedNotesHandler() {
+        const savedNotes = await getAllNotes()
+        const sortingMode = await getSortingMode()
+
+        switch(sortingMode) {
+          case 0: // alphabetical
+            setNotes(sortByAlphabeticalOrderByKey(savedNotes, 'title'))
+            break
+          case 1: // newest
+            setNotes(sortByNewest(savedNotes))
+            break
+          case 2: // oldest
+            setNotes(sortByOldest(savedNotes))
+            break
+          case 3: // newest edits
+            setNotes(sortByNewestEdit(savedNotes))
+            break;
+          case 4: // oldest edits
+            setNotes(sortByOldestEdit(savedNotes))
+            break
+          default: 
+            setNotes(sortByNewest(savedNotes))
+        }
+        
+        setLoading(false)
+      }
+
+      setSortedSavedNotesHandler()
+
+      if (wasSelectableModeDeactivatedRightNow()) {
+        navigation.setOptions({headerTitle: 'Notas'}) 
+        navigation.setOptions({headerRight: () => <HeaderRightHome/>})
+      }
+      
+      if (isSelectableModeActive()) {
+        navigation.setOptions({headerTitle: `Notas selecionadas: ${selectedItemsCount}`})
+        navigation.setOptions({headerRight: () => <HeaderRightHomeSelectableMode deleteButtonOnPress={deleteMultiNotesHandler}/>})
+      }
     }
+  }, [isFocused, wasSelectableModeDeactivatedRightNow, isSelectableModeActive, selectedItemsCount])
+
+  useHardwareBackButton(() => {
     if (isSelectableModeActive()) {
-      // console.log(selectedItemsCount)
-      navigation.setOptions({ headerTitle: `Selected ${selectedItemsCount}`, headerRight: () => <DeleteNoteButton onPress={deleteMultiNoteHandler}/> })
-    } else if (!isSelectableModeActive()) {
-      // console.log(selectedItemsCount)
-      navigation.setOptions({ headerTitle: 'Notas', headerRight: () => <HeaderRightHome/> })
+      deactivateSelectableMode()
+    } else {
+      BackHandler.exitApp()
     }
-  }, [isFocused, selectedItemsCount])
+  }, [isSelectableModeActive])
 
   return (
     <PageWrapper>
@@ -87,28 +99,12 @@ function Home({ navigation }: {navigation: HomeScreenProps}) {
           renderItem={(notes) =>  
             <NotePreview
               canPress={canPress}
-              style={isSelected(notes.item.id) ? { backgroundColor: '#b4b4b5'} : {}}
               key={notes.item.id}
               id={notes.item.id} 
               title={notes.item.title} 
               text={notes.item.text} 
               last_edit_datetime={notes.item.last_edit_datetime}
-              creation_datetime={notes.item.creation_datetime} 
-              onLongPressHandler={toggleItem}
-              rippleColor={isSelected(notes.item.id) ? 'transparent': 'gray'}
-              onPressHandler={() => {
-                if (!isSelectableModeActive()) {
-                  navigation.navigate('Create', {
-                    title: 'Editar', 
-                    noteID: notes.item.id, 
-                    noteTitle: notes.item.title, 
-                    noteText: notes.item.text, 
-                    noteCreationDatetime: notes.item.creation_datetime
-                  })
-                } else {
-                  toggleItem(notes.item.id)
-                }
-              }}
+              creation_datetime={notes.item.creation_datetime}
             /> 
           }
         /> : isLoading ? <LoadingNotesFeedback/> : <NoNoteFeedback>Nenhuma nota encontrada</NoNoteFeedback>
@@ -116,6 +112,18 @@ function Home({ navigation }: {navigation: HomeScreenProps}) {
       <CreateNoteButton onPress={() => navigation.navigate('Create', { title: 'Criar' })}/>
     </PageWrapper>
   )
+  
+  function deleteMultiNotesHandler() {
+    const messageTitle = 'Excluir notas'
+    const message = 'Tem certeza que deseja excluir as notas selecionadas?'
+    const cbYes = async () => {     
+      await deleteMultiNotes(selectedItems)
+      deactivateSelectableMode()
+      navigation.replace('Home', { title: 'Notas' }) 
+    }
+    
+    showBooleanMessage(messageTitle, message, cbYes)
+  }
 }
 
 export default Home

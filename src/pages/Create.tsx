@@ -1,8 +1,7 @@
 import styled from "styled-components/native";
 import { CreateScreenProps, RootStackParamList } from "../types/navigation-types"; 
 import { RouteProp, useIsFocused} from "@react-navigation/native";
-import { generateUUID, showBooleanMessage } from "../functions/other-functions";
-import { getNote, getNoteTextFontsize, getNoteTitleFontsize, saveNote } from "../functions/storage-functions";
+import { getNoteTextFontsize, getNoteTitleFontsize, saveNoteHandler } from "../functions/storage-functions";
 import { useState, useEffect } from "react";
 import { FlexScrollCol } from "../components/general-components";
 import useHardwareBackButton from "../hooks/useHardwareBackButton";
@@ -30,16 +29,6 @@ function Create({ navigation, route }: {navigation: CreateScreenProps, route: Ro
   const [text, setText] = useState(route.params.noteID ? route.params.noteText : '')
   const [titleFontsize, setTitleFontsize] = useState(DEFAULT_NOTE_TITLE_FONTSIZE_IN_PIXELS)
   const [textFontsize, setTextFontsize] = useState(DEFAULT_NOTE_TEXT_FONTSIZE_IN_PIXELS)
-
-  const titleHandler = (title: string) => {
-    setTitle(title)
-    navigation.setParams({...route.params, noteTitle: title})
-  }
-
-  const textHandler = (text: string) => {
-    setText(text)
-    navigation.setParams({...route.params, noteText: text })
-  }
   
   useEffect(() => {
     if (isFocused) {
@@ -48,44 +37,16 @@ function Create({ navigation, route }: {navigation: CreateScreenProps, route: Ro
       } else { 
         navigation.setParams({...route.params, noteText: text, noteTitle: title, isNewNote: true }) 
       }
-      getNoteTitleFontsize().then(fontsize => fontsize && setTitleFontsize(Number(fontsize)))
-      getNoteTextFontsize().then(fontsize => fontsize && setTextFontsize(Number(fontsize)))
+      setFontsizesHandler()
+      
+      async function setFontsizesHandler() {
+        setTitleFontsize(await getNoteTitleFontsize())
+        setTextFontsize(await getNoteTextFontsize())
+      }
     }
   }, [isFocused])
   
-  useHardwareBackButton(() => {
-    const isNewNote = route.params.isNewNote
-    const newDatetime = new Date().toISOString()
-
-    const note = {
-      id: !isNewNote ? route.params.noteID! : generateUUID(), // IMPORTANT: "!" operator used, be careful.
-      title: route.params.noteTitle!, // IMPORTANT: "!" operator used, be careful.
-      text: route.params.noteText!, // IMPORTANT: "!" operator used, be careful.
-      creation_datetime: !isNewNote ? route.params.noteCreationDatetime! : newDatetime, // IMPORTANT: "!" operator used, be careful.
-      last_edit_datetime: newDatetime
-    }
-
-    const messageTitle = 'Salvar nota'
-    const message = `Deseja ${isNewNote ? 'criar' : 'editar'} esta nota?`
-    const cbYes = () => saveNote(note).then(res => navigation.navigate('Home', { title: 'Notas' }))
-    const cbNo = () => navigation.navigate('Home', { title: 'Notas' })
-
-    if (isNewNote) {
-      if (note.title == '' && note.text == '') {
-        navigation.navigate('Home', { title: 'Notas' })
-      } else {
-        showBooleanMessage(messageTitle, message, cbYes, cbNo)
-      }
-    } else if (!isNewNote) {
-      getNote(note.id).then(savedNote => {
-        if (note.title == savedNote.title && note.text == savedNote.text) {
-          return navigation.navigate('Home', { title: 'Notas' })
-        } 
-        
-        showBooleanMessage(messageTitle, message, cbYes, cbNo)
-      })
-    }
-  }, [route.params])
+  useHardwareBackButton(() => saveNoteHandler(navigation, route), [route.params])
 
   return (
     <FlexScrollCol contentContainerStyle={{flexGrow: 1}}>
@@ -93,6 +54,16 @@ function Create({ navigation, route }: {navigation: CreateScreenProps, route: Ro
       <NoteTextInput fontsize={textFontsize} placeholderTextColor={'gray'} placeholder="Digite uma nota..." value={text} multiline onChangeText={textHandler}/>
     </FlexScrollCol>
   )
+  
+  function titleHandler(title: string) {
+    setTitle(title)
+    navigation.setParams({...route.params, noteTitle: title})
+  }
+
+  function textHandler(text: string) {
+    setText(text)
+    navigation.setParams({...route.params, noteText: text })
+  }
 }
 
 export default Create

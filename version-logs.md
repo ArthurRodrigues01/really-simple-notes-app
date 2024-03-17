@@ -1,23 +1,35 @@
 # Versions
 
-## - 1.0 (first-release)
+## 1.0 (first-release)
 
-## - 1.1
+## 1.1
 
 ### Features
 
-- added customizable font-size for both note text and title (wherever they appear), user may alter the font-size at new modal screen: "FontOptionsModal"
+- **Added** customizable font-size for both note text and title (wherever they appear), user may alter the font-size at new modal screen: "FontOptionsModal"
 
-### Styles
+### Major changes
 
-None
+- **Removed** module "react-native-gesture-handler".
+- **Added** hook "useViewportUnits"
+- **Added** new modal screen "FontOptionsModal"
 
-### Major Changes
+### Minor changes 
+- All "TouchableNativeFeedback" component instances were migrated to its "Pressable" component equivalent.
+- **Fixed** hook "useHardwareButton": deps array was properly adressed to the hook's internal useEffect parameters.
 
-- removed module "react-native-gesture-handler".
-- added hook "useViewportUnits"
-- added new modal screen "FontOptionsModal"
+## 1.2
 
-### Minor changes: 
-- all "TouchableNativeFeedback" component instances were migrated to its "Pressable" component equivalent.
-- fixed hook "useHardwareButton": deps array was properly adressed to the hook's internal useEffect parameters.
+### Features
+
+- **Added** a "Selectable mode": selectable mode is activated whenever the "selectedItems" array in the "SelectableModeProvider" component length property changes from 0 to any value above 0.
+
+### Major changes
+
+- **Added** provider "SelectableModeProvider"
+- **Added** hook "useSelectableMode"
+- **Fixed** error checking functions in "error-handlers"
+
+### Minor changes
+
+- Several good coding practices implementations, such as avoiding unnecessary code repetition.

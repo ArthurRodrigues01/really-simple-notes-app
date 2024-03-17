@@ -7,7 +7,7 @@ import useHardwareBackButton from "../hooks/useHardwareBackButton";
 import React, { useEffect, useState } from "react";
 import Slider from "@react-native-community/slider";
 import useViewportUnits from "../hooks/useViewportUnits";
-import { getNoteTextFontsize, getNoteTitleFontsize, saveNoteTextFontsize, saveNoteTitleFontsize } from "../functions/storage-functions";
+import { getNoteTextFontsize, getNoteTitleFontsize, saveNoteTextFontsize, saveNoteTitleFontsize, setFontsizesHandler } from "../functions/storage-functions";
 import { ModalAlertBoxContainer, ModalAlertBox, ModalBackdrop, ModalButton } from "../components/modal-components";
 
 const NoteTitlePreview = (props: { fontsize: number, children: string }) => {
@@ -43,9 +43,13 @@ function FontOptionsModal({ navigation }: { navigation: FontOptionsModalScreenPr
   useHardwareBackButton(closeModalHandler, [])
 
   useEffect(() => {
-    getNoteTitleFontsize().then(fontsize => fontsize && setTitleFontsize(Number(fontsize)))
-    getNoteTextFontsize().then(fontsize => fontsize && setTextFontsize(Number(fontsize)))
-  }, [])
+    setFontsizesHandler()
+      
+    async function setFontsizesHandler() {
+      setTitleFontsize(await getNoteTitleFontsize())
+      setTextFontsize(await getNoteTextFontsize())
+    }
+  }, [titleFontsize])
   
   
 

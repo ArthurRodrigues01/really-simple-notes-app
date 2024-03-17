@@ -2,7 +2,7 @@ import SortSVG from '../assets/Sort'
 import { Menu, MenuTrigger, MenuOptions, MenuOption, renderers } from "react-native-popup-menu";
 import { headerBarButtonStyles, menuTriggerCustomStyles } from '../styles/headerBarButtons';
 import { View } from 'react-native';
-import ContextMenuOptionButton from './ContextMenuOptionButton';
+import ContextMenuOptionTitle from './ContextMenuOptionTitle';
 import { useNavigation } from '@react-navigation/native';
 import { HomeScreenProps } from '../types/navigation-types';
 import { getSortingMode, saveSortingMode } from '../functions/storage-functions';
@@ -14,7 +14,7 @@ function NoteSortButton() {
   let [sortingMode, setSortingMode] = useState(1)
 
   useEffect(() => {
-    getSortingMode().then(sortCode => setSortingMode(Number(sortCode) > 4 || Number(sortCode) < 0 ? 1 : Number(sortCode)))
+    getSortingMode().then(sortCode => setSortingMode(sortCode))
   }, [])
 
   return (
@@ -26,29 +26,29 @@ function NoteSortButton() {
       </MenuTrigger>
       <MenuOptions>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => saveSortingMode(0).then(res => navigation.replace('Home', { title: 'Notas' }))}>
-          <ContextMenuOptionButton selected={sortingMode == 0}>
+          <ContextMenuOptionTitle selected={sortingMode == 0}>
             Alfabética (Título)
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => saveSortingMode(1).then(res => navigation.replace('Home', { title: 'Notas' }))}>
-          <ContextMenuOptionButton selected={sortingMode == 1}>
+          <ContextMenuOptionTitle selected={sortingMode == 1}>
             Criação (Mais novo)
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => saveSortingMode(2).then(res => navigation.replace('Home', { title: 'Notas' }))}>
-          <ContextMenuOptionButton selected={sortingMode == 2}>
+          <ContextMenuOptionTitle selected={sortingMode == 2}>
             Criação (Mais antigo)
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => saveSortingMode(3).then(res => navigation.replace('Home', { title: 'Notas' }))}>
-          <ContextMenuOptionButton selected={sortingMode == 3}>
+          <ContextMenuOptionTitle selected={sortingMode == 3}>
             Modificação (Mais novo)
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => saveSortingMode(4).then(res => navigation.replace('Home', { title: 'Notas' }))}>
-          <ContextMenuOptionButton selected={sortingMode == 4}>
+          <ContextMenuOptionTitle selected={sortingMode == 4}>
             Modificação (Mais antigo) 
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
       </MenuOptions>
     </Menu>

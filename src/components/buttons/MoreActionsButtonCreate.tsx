@@ -1,32 +1,16 @@
-import ThreeDotsSVG from '../assets/ThreeDots'
-import { copyToClipboard, showMessage } from '../functions/other-functions';
+import ThreeDotsSVG from '../../assets/ThreeDots'
+import { copyToClipboard, showMessage } from '../../functions/other-functions';
 import { Menu, MenuTrigger, MenuOptions, MenuOption, renderers } from "react-native-popup-menu";
-import { headerBarButtonStyles, menuTriggerCustomStyles } from '../styles/headerBarButtons';
+import { headerBarButtonStyles, menuTriggerCustomStyles } from '../../styles/headerBarButtons';
 import { View, Linking, Keyboard } from 'react-native';
-import ContextMenuOptionButton from './ContextMenuOptionButton';
+import ContextMenuOptionTitle from '../ContextMenuOptionTitle';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { CreateScreenProps, RootStackParamList } from '../types/navigation-types';
-import { menuOptionCustomStyles } from '../styles/buttons';
+import { CreateScreenProps, RootStackParamList } from '../../types/navigation-types';
+import { menuOptionCustomStyles } from '../../styles/buttons';
 
 function MoreActionsButtonCreate() {
   const navigation = useNavigation<CreateScreenProps>()
   const route = useRoute<RouteProp<RootStackParamList, 'Create'>>()
-
-  const clipboardHandler = () => {
-    copyToClipboard(route.params.noteText!)
-    showMessage('Nota copiada com sucesso!')
-  } 
-
-  const sendEmailHandler = () => {
-    Linking.openURL(`mailto:?subject=${route.params.noteTitle}&body=${route.params.noteText}`)
-  }
-
-  const goToFontOptionsModalHandler = () => {
-    Keyboard.dismiss()
-    setTimeout(() => {
-      navigation.navigate('FontOptionsModal', {}) 
-    }, 125)
-  }
 
   return (
     <Menu renderer={renderers.Popover} rendererProps={{ placement: 'bottom' }}>
@@ -37,23 +21,39 @@ function MoreActionsButtonCreate() {
       </MenuTrigger>
       <MenuOptions>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={clipboardHandler}>
-          <ContextMenuOptionButton>
+          <ContextMenuOptionTitle>
             Copiar nota
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={sendEmailHandler}>
-          <ContextMenuOptionButton>
+          <ContextMenuOptionTitle>
             Enviar nota como email
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
         <MenuOption customStyles={menuOptionCustomStyles} onSelect={goToFontOptionsModalHandler}>
-          <ContextMenuOptionButton>
+          <ContextMenuOptionTitle>
             Alterar Tamanho da Fonte
-          </ContextMenuOptionButton>
+          </ContextMenuOptionTitle>
         </MenuOption>
       </MenuOptions>
     </Menu>
   )
+  
+  function clipboardHandler() {
+    copyToClipboard(route.params.noteText!)
+    showMessage('Nota copiada com sucesso!')
+  } 
+
+  function sendEmailHandler() {
+    Linking.openURL(`mailto:?subject=${route.params.noteTitle}&body=${route.params.noteText}`)
+  }
+
+  function goToFontOptionsModalHandler() {
+    Keyboard.dismiss()
+    setTimeout(() => {
+      navigation.navigate('FontOptionsModal', {}) 
+    }, 125)
+  }
 }
 
 export default MoreActionsButtonCreate

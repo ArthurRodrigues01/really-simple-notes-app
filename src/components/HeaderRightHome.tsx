@@ -1,5 +1,5 @@
 import { CenteredFlexRow } from "./general-components"
-import MoreActionsButtonHome from "./MoreActionsButtonHome"
+import MoreActionsButtonHome from "./buttons/MoreActionsButtonHome"
 import NoteSortButton from "./NoteSortButton"
 
 function HeaderRightHome() {

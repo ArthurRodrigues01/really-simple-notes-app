@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
-import PencilSVG from '../assets/Pencil'
+import PencilSVG from '../../assets/Pencil'
 import { PressableProps } from "react-native";
-import { NativeButton } from './general-components';
+import { NativeButton } from '../general-components';
 
 const CreateNoteButtonWrapper = styled(NativeButton)`
   display: flex;

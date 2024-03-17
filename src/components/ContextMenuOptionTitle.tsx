@@ -7,7 +7,7 @@ const ContextText = styled(SmallText)`
 `
 
 
-function ContextMenuOptionButton({ selected, children }: { selected?: boolean , children: string } ) {
+function ContextMenuOptionTitle({ selected, children }: { selected?: boolean , children: string } ) {
   return (
     <ContextText style={selected ? { color: 'red', fontWeight: 'bold' } : {}}>
       { children }
@@ -15,4 +15,4 @@ function ContextMenuOptionButton({ selected, children }: { selected?: boolean , 
   )
 }
 
-export default ContextMenuOptionButton
+export default ContextMenuOptionTitle

@@ -50,16 +50,13 @@ export function toCustomCreateLocaleString(dateObj: Date, languageCode: Intl.Loc
 
   return creationDatetime
 }
+
 export function toCustomEditLocaleString(dateObj: Date, languageCode: Intl.LocalesArgument, localeOptions: Intl.DateTimeFormatOptions) {
   const lastEditDatetimeDate = dateObj.toLocaleDateString(languageCode, localeOptions)
   const lastEditDatetimeTime = dateObj.toLocaleTimeString(languageCode, localeOptions)
   const lastEditDatetime = `Editado em ${ lastEditDatetimeDate } as ${ lastEditDatetimeTime }`
 
   return lastEditDatetime
-}
-
-export function removeArrayItem(array: any[], index: number) {
-  return array.splice(index, 1)
 }
 
 export function isNote(obj: Note) {
@@ -90,7 +87,7 @@ export function isArrayEqual(arr1: any[], arr2: any[]) {
   const sortedArr1 = [...arr1].sort()
   const sortedArr2 = [...arr2].sort()
   
-  for(let i = 0; i < arr1.length; i++) {
+  for (let i = 0; i < arr1.length; i++) {
     if (sortedArr1[i] !== sortedArr2[i]) return false
   }
 

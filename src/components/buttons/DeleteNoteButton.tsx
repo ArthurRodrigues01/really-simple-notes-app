@@ -1,7 +1,7 @@
-import TrashBinSVG from '../assets/TrashBin'
+import TrashBinSVG from '../../assets/TrashBin'
 import { PressableProps } from "react-native";
-import { headerBarButtonCustomRippleEffect, headerBarButtonStyles } from '../styles/headerBarButtons';
-import { NativeButton } from './general-components';
+import { headerBarButtonCustomRippleEffect, headerBarButtonStyles } from '../../styles/headerBarButtons';
+import { NativeButton } from '../general-components';
 
 
 function DeleteNoteButton(props: PressableProps) {

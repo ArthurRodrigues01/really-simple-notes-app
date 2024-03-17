@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
-import { Title, CenteredFlexCol } from './general-components'
-import MagnifySVG from '../assets/Magnify'
+import { Title, CenteredFlexCol } from '../general-components'
+import MagnifySVG from '../../assets/Magnify'
 import { TextProps } from 'react-native'
 
 

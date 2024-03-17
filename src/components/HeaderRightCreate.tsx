@@ -3,8 +3,8 @@ import { showBooleanMessage } from "../functions/other-functions"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { CreateScreenProps, RootStackParamList } from "../types/navigation-types"
 import { CenteredFlexRow } from "./general-components"
-import DeleteNoteButton from "../components/DeleteNoteButton"
-import MoreActionsButtonCreate from "./MoreActionsButtonCreate"
+import DeleteNoteButton from "./buttons/DeleteNoteButton"
+import MoreActionsButtonCreate from "./buttons/MoreActionsButtonCreate"
 
 function HeaderRightCreate() {
   const route = useRoute<RouteProp<RootStackParamList, 'Create'>>()

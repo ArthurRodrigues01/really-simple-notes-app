@@ -10,7 +10,7 @@ export class NotNoteFileError extends Error {
 }
 
 export function isNotNoteFileError(e: unknown) {
-  if ((e as NotNoteFileError).getErrorName() == 'notNote') return true
+  if ((e as NotNoteFileError).getErrorName && (e as NotNoteFileError).getErrorName() == 'notNote') return true
 
   return false
 }
@@ -28,7 +28,7 @@ export class TooLargeFileError extends Error {
 }
 
 export function isTooLargeFileError(e: unknown) {
-  if ((e as TooLargeFileError).getErrorName() == 'tooLargeFile') return true
+  if ((e as TooLargeFileError).getErrorName && (e as TooLargeFileError).getErrorName() == 'tooLargeFile') return true
 
   return false
 }
@@ -46,7 +46,7 @@ export class NoNotesToExportError extends Error {
 }
 
 export function isNoNotesToExportError(e: unknown) {
-  if ((e as NoNotesToExportError).getErrorName() == 'noNotesToExport') return true
+  if ((e as NoNotesToExportError).getErrorName && (e as NoNotesToExportError).getErrorName() == 'noNotesToExport') return true
 
   return false
 }
