@@ -1,16 +1,18 @@
+import { Keyboard, Linking, View } from 'react-native';
+import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers } from "react-native-popup-menu";
+
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import ThreeDotsSVG from '../../assets/ThreeDots'
-import { copyToClipboard, showMessage } from '../../functions/other-functions';
-import { Menu, MenuTrigger, MenuOptions, MenuOption, renderers } from "react-native-popup-menu";
-import { headerBarButtonStyles, menuTriggerCustomStyles } from '../../styles/headerBarButtons';
-import { View, Linking, Keyboard } from 'react-native';
 import ContextMenuOptionTitle from '../ContextMenuOptionTitle';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { CreateScreenProps, RootStackParamList } from '../../types/navigation-types';
+import { copyToClipboard, showMessage } from '../../functions/other-functions';
+import { headerBarButtonStyles, menuTriggerCustomStyles } from '../../styles/headerBarButtons';
 import { menuOptionCustomStyles } from '../../styles/buttons';
+import { CreateScreenNavigationProps, CreateScreenRouteProps } from '../../types/navigation-types';
 
 function MoreActionsButtonCreate() {
-  const navigation = useNavigation<CreateScreenProps>()
-  const route = useRoute<RouteProp<RootStackParamList, 'Create'>>()
+  const navigation = useNavigation<CreateScreenNavigationProps>()
+  const route = useRoute<CreateScreenRouteProps>()
 
   return (
     <Menu renderer={renderers.Popover} rendererProps={{ placement: 'bottom' }}>

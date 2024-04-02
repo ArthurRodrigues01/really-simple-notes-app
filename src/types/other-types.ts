@@ -5,3 +5,8 @@ export type Note = {
   creation_datetime: string,
   last_edit_datetime: string
 }
+
+export type DeletedNote = {
+  deletedNoteObj: Note,
+  deletionDate: string
+}

@@ -1,4 +1,5 @@
 export const NOTES_KEY = 'notes'
+export const TRASHBIN_NOTES_KEY = 'trashbin_notes'
 export const SORTING_MODE_KEY = 'sorting'
 export const NOTE_TITLE_FONTSIZE_KEY = 'note_title_fontsize_key'
 export const NOTE_TEXT_FONTSIZE_KEY = 'note_text_fontsize_key'
@@ -9,3 +10,5 @@ export const BACKUP_NOTES_FILE_SIZE_CAP_BYTES = 4000000
 export const HEADER_BACKGROUND_COLOR = '#FFBB32'
 export const DEFAULT_NOTE_TITLE_FONTSIZE_IN_PIXELS = 24
 export const DEFAULT_NOTE_TEXT_FONTSIZE_IN_PIXELS = 18
+export const DEFAULT_INTERVAL_BEFORE_NOTE_PERMADELETION_MILLISECONDS = 86400000 * 30
+export const DAY_MILLISECONDS = 86400000  

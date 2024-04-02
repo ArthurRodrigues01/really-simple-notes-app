@@ -1,6 +1,6 @@
 # Versions
 
-## 1.0 (first-release)
+## 1.0 (initial-release)
 
 ## 1.1
 
@@ -11,7 +11,7 @@
 ### Major changes
 
 - **Removed** module "react-native-gesture-handler".
-- **Added** hook "useViewportUnits"
+- **Added** new hook "useViewportUnits"
 - **Added** new modal screen "FontOptionsModal"
 
 ### Minor changes 
@@ -48,3 +48,27 @@ None
 ### Minor changes
 
 - **Fixed** bad "selectable mode" handling: user was able to go to note creation screen even if "selectable mode" was active.
+
+## 1.3
+
+### Features
+
+- **Added** "Trash bin" for deleted notes: notes who have been deleted, will now be stored in the "trash bin". Notes in the "trash bin" once deleted are lost for good.
+
+### Major changes
+
+- Migrated from "AsyncStorage" to "react-native-mmkv" for storaging data on the app.
+- **Added** new app icon: new original adaptive icon.
+- **Added** new screen "Read"
+- **Added** new screen "Trashbin"
+- **Modified** "useSortNotes": functions "sortByOldestEdit" and "sortByNewestEdit" unexpected behavior due to "last_edit_datetime" being equal to "creation_datetime" for new notes, was fixed, now edited notes will be sorted separately and placed before other sorted non-edited notes in the return array for both these functions.
+- **Added** new module: "react-native-mmkv"
+- **Removed** module: "@react-native-async-storage/async-storage"
+- **Added** new hook: "useDefaultStorageListener"
+- **Added** new hook: "useNotesStorageListener"
+- **Added** new hook: "useTrashbinStorageListener"
+
+### Minor changes
+- **Added** "styles" file to main components folders: will help keeping track of specific component styles 
+
+- Several good coding practices implementations.

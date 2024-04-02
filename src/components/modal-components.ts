@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
-import { NativeButton, CenteredFlexCol, FlexCol } from "./general-components";
+
 import { ANDROID_BACKDROP_COLOR, ANDROID_BACKDROP_OPACITY } from "../constants/constants";
+import { CenteredFlexCol, FlexCol, NativeButton } from "./general-components";
 
 export const ModalBackdrop = styled.Pressable`
   height: 100%;

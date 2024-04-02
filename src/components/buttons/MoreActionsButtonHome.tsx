@@ -1,21 +1,29 @@
-import ThreeDotsSVG from '../../assets/ThreeDots'
-import { showBooleanMessage, showMessage } from '../../functions/other-functions';
-import { Menu, MenuTrigger, MenuOptions, MenuOption, renderers } from "react-native-popup-menu";
-import { headerBarButtonStyles, menuTriggerCustomStyles } from '../../styles/headerBarButtons';
 import { Keyboard, View } from 'react-native';
-import ContextMenuOptionTitle from '../ContextMenuOptionTitle';
-import { useNavigation } from '@react-navigation/native';
-import { HomeScreenProps } from '../../types/navigation-types';
-import { clearNotes, getAllNotes, importNotes } from '../../functions/storage-functions';
-import { pickSingle, isCancel} from 'react-native-document-picker';
+import { isCancel, pickSingle } from 'react-native-document-picker';
+import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers } from "react-native-popup-menu";
+
 import * as RNFS from '@dr.pogodin/react-native-fs'
-import { Note } from '../../types/other-types';
+import { useNavigation } from '@react-navigation/native';
+
+import ThreeDotsSVG from '../../assets/ThreeDots'
+import ContextMenuOptionTitle from '../ContextMenuOptionTitle';
 import { BACKUP_NOTES_FILE_SIZE_CAP_BYTES } from '../../constants/constants';
-import { NoNotesToExportError, TooLargeFileError, isNoNotesToExportError, isNotNoteFileError, isTooLargeFileError} from '../../constants/error-handlers';
-import { menuOptionCustomStyles } from '../../styles/buttons';
+import { 
+  isNoNotesToExportError, 
+  isNotNoteFileError, 
+  isTooLargeFileError, 
+  NoNotesToExportError, 
+  TooLargeFileError 
+} from '../../constants/error-handlers';
+import { showBooleanMessage, showMessage } from '../../functions/other-functions';
+import { clearNotes, getAllNotes, importNotes } from '../../functions/storage-functions';
+import { headerBarButtonStyles, menuTriggerCustomStyles } from '../../styles/headerBarButtons';
+import { menuOptionCustomStyles } from '../../styles/buttons'; 
+import { HomeScreenNavigationProps } from '../../types/navigation-types';
+
 
 function MoreActionsButtonHome() {
-  const navigation = useNavigation<HomeScreenProps>()
+  const navigation = useNavigation<HomeScreenNavigationProps>()
 
   return (
     <Menu renderer={renderers.Popover} rendererProps={{ placement: 'bottom' }}>
@@ -45,6 +53,11 @@ function MoreActionsButtonHome() {
             Alterar Tamanho da Fonte
           </ContextMenuOptionTitle>
         </MenuOption>
+        <MenuOption customStyles={menuOptionCustomStyles} onSelect={() => navigation.navigate('Trashbin', { title: 'Lixo' })}>
+          <ContextMenuOptionTitle>
+            Lixeira
+          </ContextMenuOptionTitle>
+        </MenuOption>
       </MenuOptions>
     </Menu>
   )
@@ -53,7 +66,7 @@ function MoreActionsButtonHome() {
     const messageTitle = 'Excluir tudo'
     const message = 'Tem certeza que deseja excluir TODAS as notas?'
     const cbYes = async () => { 
-      await clearNotes()
+      clearNotes()
       navigation.replace('Home', { title: 'Notas' }) 
     }
     
@@ -62,7 +75,8 @@ function MoreActionsButtonHome() {
 
   async function importNotesHandler() {
     const title = 'AVISO⚠️'
-    const message = 'A importação de novas notas excluíra TODAS as notas existentes no processo, substituindo às pelas novas notas.\n\nTem certeza que deseja importar novas notas?'
+    const message = 'A importação de novas notas excluíra TODAS as notas existentes (incluíndo as que estiverem na lixeira) permanentemente.\n\nTem certeza que deseja importar novas notas?'
+    
     showBooleanMessage(title, message, async () => {
       try {
         const picked = await pickSingle({ type: 'application/json' })
@@ -72,7 +86,7 @@ function MoreActionsButtonHome() {
   
         const notesJSON = JSON.parse(jsonString)
     
-        await importNotes(notesJSON)
+        importNotes(notesJSON)
         navigation.replace('Home', { title: 'Notas' })
         showMessage('Novas notas importadas com êxito!')
       } catch (e) {
@@ -86,11 +100,18 @@ function MoreActionsButtonHome() {
 
   async function exportNotesHandler() { 
     try {
-      const notesToExport = await getAllNotes()
+      const notesToExport = getAllNotes()
       if (notesToExport.length == 0) throw new NoNotesToExportError()
       
       const dateObj = new Date()
-      const dateString = dateObj.getDate() + '-' + dateObj.getMonth() + '-' + dateObj.getFullYear() + '-' + dateObj.getHours() + '-' + dateObj.getMinutes() + '-' + dateObj.getSeconds()  
+      const dateString = 
+        dateObj.getDate() + '-' + 
+        dateObj.getMonth() + '-' + 
+        dateObj.getFullYear() + '-' + 
+        dateObj.getHours() + '-' + 
+        dateObj.getMinutes() + '-' + 
+        dateObj.getSeconds()  
+        
       const fileName = `backup-notes-${dateString}.json`
       const filePath = RNFS.DownloadDirectoryPath
       const destPath =  filePath + '/' + fileName

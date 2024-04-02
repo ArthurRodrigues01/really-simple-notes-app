@@ -1,10 +1,4 @@
-import styled from "styled-components/native";
-import { SmallText } from "./general-components";
-
-const ContextText = styled(SmallText)`
-  padding: 10px;
-  min-width: 150px;
-`
+import { ContextText } from "./styles";
 
 
 function ContextMenuOptionTitle({ selected, children }: { selected?: boolean , children: string } ) {

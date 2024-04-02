@@ -1,13 +1,9 @@
-import styled from 'styled-components/native'
-import { Title, CenteredFlexCol } from '../general-components'
-import MagnifySVG from '../../assets/Magnify'
 import { TextProps } from 'react-native'
 
+import MagnifySVG from '../../assets/Magnify'
+import { NoNoteFeedbackWrapper } from './styles'
+import { Title } from '../general-components'
 
-const NoNoteFeedbackWrapper = styled(CenteredFlexCol)`
-  gap: 72px;
-  flex-grow: 1;
-`
 
 function NoNoteFeedback({children}: TextProps) {
   return (

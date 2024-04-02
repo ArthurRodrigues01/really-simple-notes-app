@@ -1,26 +1,30 @@
-import { useState } from "react";
-import { Pressable, PressableProps, ColorValue } from "react-native";
+import { ColorValue, Pressable, PressableProps } from "react-native";
+
 import styled from "styled-components/native";
 
-export const FlexRow = styled.View`
+export const FlexRow = styled.View<{gap?: number}>`
   display: flex;
   flex-direction: row;
+  ${props => props.gap ? `gap: ${props.gap}px` : ''};
 `
-export const FlexCol = styled.View`
+export const FlexCol = styled.View<{gap?: number}>`
   display: flex;
   flex-direction: column;
+  ${props => props.gap ? `gap: ${props.gap}px` : ''};
 `
-export const CenteredFlexRow = styled.View`
+export const CenteredFlexRow = styled.View<{gap?: number}>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  ${props => props.gap ? `gap: ${props.gap}px` : ''};
 `
-export const CenteredFlexCol = styled.View`
+export const CenteredFlexCol = styled.View<{gap?: number}>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  ${props => props.gap ? `gap: ${props.gap}px` : ''};
 `
 export const FlexScrollRow = styled.ScrollView`
   display: flex;

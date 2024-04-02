@@ -43,7 +43,11 @@ export function customRippleRadiusEffect(colorCode: string, rippleRadius: number
   return TouchableNativeFeedback.Ripple(colorCode, false, rippleRadius)
 }
 
-export function toCustomCreateLocaleString(dateObj: Date, languageCode: Intl.LocalesArgument, localeOptions: Intl.DateTimeFormatOptions) {
+export function toCustomCreateLocaleString(
+  dateObj: Date, 
+  languageCode: Intl.LocalesArgument, 
+  localeOptions: Intl.DateTimeFormatOptions) 
+{
   const creationDatetimeDate = dateObj.toLocaleDateString(languageCode, localeOptions)
   const creationDatetimeTime = dateObj.toLocaleTimeString(languageCode, localeOptions)
   const creationDatetime = `Criado em ${ creationDatetimeDate } as ${ creationDatetimeTime }`
@@ -51,12 +55,28 @@ export function toCustomCreateLocaleString(dateObj: Date, languageCode: Intl.Loc
   return creationDatetime
 }
 
-export function toCustomEditLocaleString(dateObj: Date, languageCode: Intl.LocalesArgument, localeOptions: Intl.DateTimeFormatOptions) {
+export function toCustomEditLocaleString(
+  dateObj: Date, 
+  languageCode: Intl.LocalesArgument, 
+  localeOptions: Intl.DateTimeFormatOptions) 
+{
   const lastEditDatetimeDate = dateObj.toLocaleDateString(languageCode, localeOptions)
   const lastEditDatetimeTime = dateObj.toLocaleTimeString(languageCode, localeOptions)
   const lastEditDatetime = `Editado em ${ lastEditDatetimeDate } as ${ lastEditDatetimeTime }`
 
   return lastEditDatetime
+}
+
+export function toCustomDeletedLocaleString(
+  dateObj: Date, 
+  languageCode: Intl.LocalesArgument, 
+  localeOptions: Intl.DateTimeFormatOptions) 
+{
+  const deletedDatetimeDate = dateObj.toLocaleDateString(languageCode, localeOptions)
+  const deletedDatetimeTime = dateObj.toLocaleTimeString(languageCode, localeOptions)
+  const deletedDatetime = `Excluído em ${ deletedDatetimeDate} as ${ deletedDatetimeTime }`
+
+  return deletedDatetime
 }
 
 export function isNote(obj: Note) {
